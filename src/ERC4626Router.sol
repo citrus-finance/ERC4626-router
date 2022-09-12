@@ -3,14 +3,13 @@ pragma solidity 0.8.10;
 
 import "./ERC4626RouterBase.sol";
 
-import {ENSReverseRecord} from "./utils/ENSReverseRecord.sol";
 import {IERC4626Router} from "./interfaces/IERC4626Router.sol";
 
 /// @title ERC4626Router contract
-contract ERC4626Router is IERC4626Router, ERC4626RouterBase, ENSReverseRecord {
+contract ERC4626Router is IERC4626Router, ERC4626RouterBase {
     using SafeTransferLib for ERC20;
 
-    constructor(string memory name, IWETH9 weth) ENSReverseRecord(name) PeripheryPayments(weth) {}
+    constructor(IWETH9 weth) PeripheryPayments(weth) {}
 
     // For the below, no approval needed, assumes vault is already max approved
 
