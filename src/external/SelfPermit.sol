@@ -1,10 +1,10 @@
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: AGPL-3.0
 pragma solidity >=0.5.0;
 
 import {ERC20} from "solmate/tokens/ERC20.sol";
 
-import './interfaces/ISelfPermit.sol';
-import './interfaces/IERC20PermitAllowed.sol';
+import "./interfaces/ISelfPermit.sol";
+import "./interfaces/IERC20PermitAllowed.sol";
 
 /// @title Self Permit
 /// @notice Functionality to call permit on any EIP-2612-compliant token for use in the route

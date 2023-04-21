@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: AGPL-3.0
 pragma solidity 0.8.10;
 
 import "./IERC4626.sol";
@@ -34,11 +34,7 @@ interface IERC4626Router {
      @return sharesOut the amount of shares received by `to`.
      @dev throws MinSharesError   
     */
-    function depositMax(
-        IERC4626 vault,
-        address to,
-        uint256 minSharesOut
-    ) external payable returns (uint256 sharesOut);
+    function depositMax(IERC4626 vault, address to, uint256 minSharesOut) external payable returns (uint256 sharesOut);
 
     /************************** Withdraw **************************/
 
@@ -90,9 +86,5 @@ interface IERC4626Router {
      @return amountOut the amount of assets received by `to`.
      @dev throws MinAmountError   
     */
-    function redeemMax(
-        IERC4626 vault,
-        address to,
-        uint256 minAmountOut
-    ) external payable returns (uint256 amountOut);
+    function redeemMax(IERC4626 vault, address to, uint256 minAmountOut) external payable returns (uint256 amountOut);
 }

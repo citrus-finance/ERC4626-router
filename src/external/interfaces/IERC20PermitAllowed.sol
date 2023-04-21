@@ -1,6 +1,6 @@
 // forked from https://github.com/Uniswap/v3-periphery/blob/main/contracts/interfaces/external/IERC20PermitAllowed.sol
 
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: AGPL-3.0
 pragma solidity >=0.5.0;
 
 /// @title Interface for permit

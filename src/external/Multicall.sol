@@ -1,9 +1,9 @@
 // forked from https://github.com/Uniswap/v3-periphery/blob/main/contracts/base/Multicall.sol
 
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: AGPL-3.0
 pragma solidity >=0.7.6;
 
-import './interfaces/IMulticall.sol';
+import "./interfaces/IMulticall.sol";
 
 /// @title Multicall
 /// @notice Enables calling multiple methods in a single call to the contract

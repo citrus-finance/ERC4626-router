@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: AGPL-3.0
 pragma solidity >=0.7.5;
 
 import "solmate/utils/SafeTransferLib.sol";
@@ -15,7 +15,7 @@ import "solmate/utils/SafeTransferLib.sol";
  * Solmate interfaces and transfer lib
  * casting
  * add approve, wrapWETH9 and pullToken
-*/ 
+*/
 abstract contract PeripheryPayments {
     using SafeTransferLib for *;
 
@@ -33,7 +33,7 @@ abstract contract PeripheryPayments {
 
     function unwrapWETH9(uint256 amountMinimum, address recipient) public payable {
         uint256 balanceWETH9 = WETH9.balanceOf(address(this));
-        require(balanceWETH9 >= amountMinimum, 'Insufficient WETH9');
+        require(balanceWETH9 >= amountMinimum, "Insufficient WETH9");
 
         if (balanceWETH9 > 0) {
             WETH9.withdraw(balanceWETH9);
@@ -49,13 +49,9 @@ abstract contract PeripheryPayments {
         token.safeTransferFrom(msg.sender, recipient, amount);
     }
 
-    function sweepToken(
-        ERC20 token,
-        uint256 amountMinimum,
-        address recipient
-    ) public payable {
+    function sweepToken(ERC20 token, uint256 amountMinimum, address recipient) public payable {
         uint256 balanceToken = token.balanceOf(address(this));
-        require(balanceToken >= amountMinimum, 'Insufficient token');
+        require(balanceToken >= amountMinimum, "Insufficient token");
 
         if (balanceToken > 0) {
             token.safeTransfer(recipient, balanceToken);

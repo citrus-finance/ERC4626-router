@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: AGPL-3.0
 pragma solidity 0.8.10;
 
 import {ERC20} from "solmate/tokens/ERC20.sol";
@@ -44,19 +44,11 @@ abstract contract IERC4626 is ERC20 {
 
     /// @notice Redeems `shares` from `owner` and sends `assets`
     /// of underlying tokens to `receiver`.
-    function withdraw(
-        uint256 assets,
-        address receiver,
-        address owner
-    ) external virtual returns (uint256 shares);
+    function withdraw(uint256 assets, address receiver, address owner) external virtual returns (uint256 shares);
 
     /// @notice Redeems `shares` from `owner` and sends `assets`
     /// of underlying tokens to `receiver`.
-    function redeem(
-        uint256 shares,
-        address receiver,
-        address owner
-    ) external virtual returns (uint256 assets);
+    function redeem(uint256 shares, address receiver, address owner) external virtual returns (uint256 assets);
 
     /*////////////////////////////////////////////////////////
                       Vault Accounting Logic
