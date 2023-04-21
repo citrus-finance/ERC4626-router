@@ -14,7 +14,6 @@ interface Assume {
 }
 
 contract ERC4626Test is DSTestPlus {
-
     MockERC20 underlying;
     IERC4626 vault;
     IERC4626 toVault;
@@ -22,12 +21,11 @@ contract ERC4626Test is DSTestPlus {
     IWETH9 weth;
     IERC4626 wethVault;
 
-    bytes32 public PERMIT_TYPEHASH = keccak256(
-                                "Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)"
-                            );
+    bytes32 public PERMIT_TYPEHASH =
+        keccak256("Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)");
 
     receive() external payable {}
-    
+
     function setUp() public {
         underlying = new MockERC20("Mock Token", "TKN", 18);
 
@@ -38,7 +36,7 @@ contract ERC4626Test is DSTestPlus {
 
         wethVault = IERC4626(address(new MockERC4626(weth, "Mock ERC4626", "mTKN")));
 
-        router = new ERC4626Router("", weth); // empty reverse ens
+        router = new ERC4626Router(weth); // empty reverse ens
     }
 
     function testMint(uint256 amount) public {
@@ -48,7 +46,7 @@ contract ERC4626Test is DSTestPlus {
         underlying.approve(address(router), amount);
 
         router.approve(underlying, address(vault), amount);
-    
+
         router.pullToken(underlying, amount, address(router));
 
         router.mint(IERC4626(address(vault)), address(this), amount, amount);
@@ -64,7 +62,7 @@ contract ERC4626Test is DSTestPlus {
         underlying.approve(address(router), amount);
 
         router.approve(underlying, address(vault), amount);
-    
+
         router.pullToken(underlying, amount, address(router));
 
         router.deposit(IERC4626(address(vault)), address(this), amount, amount);
@@ -80,13 +78,13 @@ contract ERC4626Test is DSTestPlus {
         underlying.approve(address(router), amount);
 
         router.approve(underlying, address(vault), amount);
-    
+
         router.depositMax(IERC4626(address(vault)), address(this), amount);
 
         require(vault.balanceOf(address(this)) == amount);
         require(underlying.balanceOf(address(this)) == 0);
     }
-    
+
     function testDepositToVault(uint256 amount) public {
         Assume(address(hevm)).assume(amount != 0);
         underlying.mint(address(this), amount);
@@ -217,7 +215,7 @@ contract ERC4626Test is DSTestPlus {
     function testWithdrawToBelowMinOutReverts(uint128 amount) public {
         Assume(address(hevm)).assume(amount != 0 && amount != type(uint128).max);
         underlying.mint(address(this), amount);
-        
+
         underlying.approve(address(router), type(uint).max);
 
         router.approve(underlying, address(vault), amount);
@@ -297,7 +295,7 @@ contract ERC4626Test is DSTestPlus {
     function testWithdrawWithPermit(uint128 amount) public {
         Assume(address(hevm)).assume(amount != 0);
         underlying.mint(address(this), amount);
-        
+
         uint256 privateKey = 0xBEEF;
         address owner = hevm.addr(privateKey);
 
@@ -482,7 +480,7 @@ contract ERC4626Test is DSTestPlus {
         underlying.mint(address(this), amount);
 
         underlying.approve(address(router), amount);
-        
+
         router.approve(underlying, address(vault), amount);
 
         router.depositToVault(IERC4626(address(vault)), address(this), amount, amount);
@@ -526,7 +524,13 @@ contract ERC4626Test is DSTestPlus {
         wethVault.approve(address(router), amount);
 
         bytes[] memory withdrawData = new bytes[](2);
-        withdrawData[0] = abi.encodeWithSelector(ERC4626RouterBase.withdraw.selector, wethVault, address(router), amount, amount);
+        withdrawData[0] = abi.encodeWithSelector(
+            ERC4626RouterBase.withdraw.selector,
+            wethVault,
+            address(router),
+            amount,
+            amount
+        );
         withdrawData[1] = abi.encodeWithSelector(PeripheryPayments.unwrapWETH9.selector, amount, address(this));
 
         router.multicall(withdrawData);
